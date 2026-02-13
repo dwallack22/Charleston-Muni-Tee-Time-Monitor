@@ -1,0 +1,32 @@
+site:
+  url: "https://sccharlestonweb.myvscloud.com/webtrac/web/search.html?module=GR&Search=no&interfaceparameter=webtrac_golf"
+  load_timeout_sec: 45
+  check_interval_sec: 300
+  number_of_players: 1
+  begin_time: "07:00 am"
+
+watch:
+  # Update these to whatever window you want to monitor
+  start_date: "2026-02-16"
+  end_date: "2026-02-16"
+  # Optional: 0=Mon .. 6=Sun
+  # days_of_week: [0,1,2,3,4,5,6]
+  start_time: "08:00"
+  end_time: "15:00"
+  # Minimum *open* slots required to alert (1..4). Example: 3 = you want at least a threesome.
+  min_open_slots: 2
+
+notify:
+  email:
+    enabled: false
+    to: "you@example.com"
+    from_name: "Charleston Muni Monitor"
+  pushover:
+    enabled: true
+    # These env-var names let you keep your secrets out of config
+    user_key_env: "PUSHOVER_USER_KEY"
+    app_token_env: "PUSHOVER_APP_TOKEN"
+
+runtime:
+  state_file: "state.json"
+  max_notifies_per_run: 8

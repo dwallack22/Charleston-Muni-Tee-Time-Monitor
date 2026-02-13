@@ -1,0 +1,27 @@
+# Secrets / local env
+.env
+.env.*
+!.env.example
+
+# Python env / cache
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# App runtime state/logs
+state.json
+monitor.pid
+monitor.log
+ui_test_output.log
+ui_test_result.json
+
+# OS/editor files
+.DS_Store
+.idea/
+.vscode/
+
+# Debug scraper artifacts
+debug_*.html
+debug_*.png
+
