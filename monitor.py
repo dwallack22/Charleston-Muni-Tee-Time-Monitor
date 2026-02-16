@@ -4,6 +4,7 @@ import argparse, time
 import os
 from datetime import datetime, timedelta
 import traceback
+from urllib.parse import urlparse, parse_qs
 import yaml
 from dotenv import load_dotenv
 
@@ -33,7 +34,21 @@ def daterange(start, end):
 
 
 def slot_key(s: dict) -> str:
-    return f"{s['date']}|{s['time']}|{s['href']}"
+    href = str(s.get("href", "") or "")
+    slot_id = ""
+    if href:
+        try:
+            parsed = urlparse(href)
+            qs = parse_qs(parsed.query)
+            # GRFMIDList is the stable tee-time id on this WebTrac flow.
+            # `_csrf_token` rotates frequently and must not be used for de-dupe.
+            slot_id = (qs.get("GRFMIDList") or [""])[0].strip()
+        except Exception:
+            slot_id = ""
+
+    # Include players so an actual state change (e.g., 2 -> 4 open slots) re-alerts once.
+    stable_id = slot_id or f"{s['date']}|{s['time']}"
+    return f"{stable_id}|players={int(s.get('players', 0))}"
 
 
 def main():
